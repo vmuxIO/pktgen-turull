@@ -4201,7 +4201,7 @@ static int pktgen_add_rx(const char *ifname)
 		pg_rx_global->display_option = PG_DISPLAY_HUMAN;
 
 		nfho.hook = pktgen_rcv_basic;
-		nf_register_hook(&nfho);
+		nf_register_net_hook(&init_net, &nfho);
 		//dev_add_pack(&pktgen_packet_type);
 		err = 0;
 		//net_disable_timestamp();
@@ -4225,7 +4225,7 @@ static int pktgen_set_statistics(const char *f)
 		return -ENOMEM;
 
 	//net_disable_timestamp();
-	nf_unregister_hook(&nfho);
+	nf_unregister_net_hook(&init_net, &nfho);
 
 	if (!strcmp(f, "counter")) {
 		pg_rx_global->stats_option = RX_COUNTER;
@@ -4242,7 +4242,7 @@ static int pktgen_set_statistics(const char *f)
 	} else
 		ret = -EINVAL;
 
-	nf_register_hook(&nfho);
+	nf_register_net_hook(&init_net, &nfho);
 	return ret;
 }
 
@@ -4266,7 +4266,7 @@ static int pktgen_set_display(const char *f)
 static int pktgen_clean_rx(void)
 {
 	if (pg_initialized) {
-		nf_unregister_hook(&nfho);
+		nf_unregister_net_hook(&init_net, &nfho);
 		kfree(pg_rx_global);
 		pg_initialized = 0;
 	}
