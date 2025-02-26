@@ -595,13 +595,12 @@ static int pgctrl_open(struct inode *inode, struct file *file)
 	return single_open(file, pgctrl_show, pde_data(inode));
 }
 
-static const struct file_operations pktgen_fops = {
-	.owner   = THIS_MODULE,
-	.open    = pgctrl_open,
-	.read    = seq_read,
-	.llseek  = seq_lseek,
-	.write   = pgctrl_write,
-	.release = single_release,
+static const struct proc_ops pktgen_fops = {
+	.proc_open    = pgctrl_open,
+	.proc_read    = seq_read,
+	.proc_lseek  = seq_lseek,
+	.proc_write   = pgctrl_write,
+	.proc_release = single_release,
 };
 
 static int pktgen_if_show(struct seq_file *seq, void *v)
@@ -1869,13 +1868,12 @@ static int pktgen_if_open(struct inode *inode, struct file *file)
 	return single_open(file, pktgen_if_show, pde_data(inode));
 }
 
-static const struct file_operations pktgen_if_fops = {
-	.owner   = THIS_MODULE,
-	.open    = pktgen_if_open,
-	.read    = seq_read,
-	.llseek  = seq_lseek,
-	.write   = pktgen_if_write,
-	.release = single_release,
+static const struct proc_ops pktgen_if_fops = {
+	.proc_open    = pktgen_if_open,
+	.proc_read    = seq_read,
+	.proc_lseek  = seq_lseek,
+	.proc_write   = pktgen_if_write,
+	.proc_release = single_release,
 };
 
 static int pktgen_thread_show(struct seq_file *seq, void *v)
@@ -2007,13 +2005,12 @@ static int pktgen_thread_open(struct inode *inode, struct file *file)
 	return single_open(file, pktgen_thread_show, pde_data(inode));
 }
 
-static const struct file_operations pktgen_thread_fops = {
-	.owner   = THIS_MODULE,
-	.open    = pktgen_thread_open,
-	.read    = seq_read,
-	.llseek  = seq_lseek,
-	.write   = pktgen_thread_write,
-	.release = single_release,
+static const struct proc_ops pktgen_thread_fops = {
+	.proc_open    = pktgen_thread_open,
+	.proc_read    = seq_read,
+	.proc_lseek   = seq_lseek,
+	.proc_write   = pktgen_thread_write,
+	.proc_release = single_release,
 };
 
 
@@ -2261,13 +2258,12 @@ static int pgrx_open(struct inode *inode, struct file *file)
 	return single_open(file, pgrx_show, pde_data(inode));
 }
 
-static const struct file_operations pktgen_rx_fops = {
-	.owner   = THIS_MODULE,
-	.open    = pgrx_open,
-	.read    = seq_read,
-	.llseek  = seq_lseek,
-	.write   = pgrx_write,
-	.release = single_release,
+static const struct proc_ops pktgen_rx_fops = {
+	.proc_open    = pgrx_open,
+	.proc_read    = seq_read,
+	.proc_lseek  = seq_lseek,
+	.proc_write   = pgrx_write,
+	.proc_release = single_release,
 };
 
 /* Think find or remove for NN */
