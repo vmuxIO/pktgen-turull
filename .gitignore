@@ -1,2 +1,16 @@
+*.o
 *.o.d
+*.o.cmd
+*.ko
+*.ko.cmd
+Module.symvers
+.Module.symvers.cmd
+modules.order
+.modules.order.cmd
+*.mod
+*.mod.c
+*.mod.o
+*.mod.cmd
+*.mod.o.cmd
 linux*/
+single_open
