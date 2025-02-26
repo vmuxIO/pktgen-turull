@@ -187,6 +187,9 @@
 #define MAX_MPLS_LABELS 16 /* This is the max label stack depth */
 #define MPLS_STACK_BOTTOM htonl(0x00000100)
 
+#define IN6_ADDR_HSIZE_SHIFT  8
+#define IN6_ADDR_HSIZE    BIT(IN6_ADDR_HSIZE_SHIFT)
+
 #define func_enter() pr_debug("entering %s\n", __func__);
 
 /* Device flag bits */
