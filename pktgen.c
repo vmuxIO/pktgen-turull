@@ -2085,8 +2085,8 @@ static int pgrx_show(struct seq_file *seq, void *v)
 	u64 total_packets = 0, total_bytes = 0;
 	u64 packets = 0, bytes = 0;
 	ktime_t start_global, stop_global, tmp;
-	start_global.tv64 = 0;
-	stop_global.tv64 = 0;
+	start_global = 0;
+	stop_global = 0;
 
 	if (!pg_initialized) {
 		seq_puts(seq, "Not enabled.\n");
@@ -2111,9 +2111,9 @@ static int pgrx_show(struct seq_file *seq, void *v)
 			packets, bytes);
 
 		tmp = data_cpu->start_time;
-		if (start_global.tv64 == 0 && tmp.tv64 != 0)
+		if (start_global == 0 && tmp != 0)
 			start_global = tmp;
-		else if (tmp.tv64 < start_global.tv64 && tmp.tv64 != 0)
+		else if (tmp < start_global && tmp != 0)
 			start_global = tmp;
 
 		tmp = data_cpu->last_time;
@@ -4160,11 +4160,11 @@ void pg_reset_rx(void)
 	for_each_online_cpu(cpu) {
 		per_cpu(pktgen_rx_data, cpu).rx_packets = 0;
 		per_cpu(pktgen_rx_data, cpu).rx_bytes = 0;
-		per_cpu(pktgen_rx_data, cpu).last_time.tv64 = 0;
-		per_cpu(pktgen_rx_data, cpu).start_time.tv64 = 0;
+		per_cpu(pktgen_rx_data, cpu).last_time = 0;
+		per_cpu(pktgen_rx_data, cpu).start_time = 0;
 		per_cpu(pktgen_rx_data, cpu).latency_last = 0;
-		per_cpu(pktgen_rx_data, cpu).last_time_ktime.tv64 = 0;
-		per_cpu(pktgen_rx_data, cpu).latency_last_tx.tv64 = 0;
+		per_cpu(pktgen_rx_data, cpu).last_time_ktime = 0;
+		per_cpu(pktgen_rx_data, cpu).latency_last_tx = 0;
 		pg_init_stats(&per_cpu(pktgen_rx_data, cpu).inter_arrival);
 		pg_init_stats(&per_cpu(pktgen_rx_data, cpu).jitter);
 		pg_init_stats(&per_cpu(pktgen_rx_data, cpu).latency);
@@ -4299,7 +4299,7 @@ static int inter_arrival_ktime(ktime_t now, struct pktgen_rx *data_cpu)
 	u64 inter_arrival = 0;
 
 	last_time = data_cpu->last_time_ktime;
-	if (last_time.tv64 == 0) {
+	if (last_time == 0) {
 		data_cpu->last_time_ktime = now;
 		return 0;
 	}
@@ -4320,9 +4320,9 @@ static int latency_calc(struct pktgen_hdr *pgh, ktime_t now,
 	ktime_t ktime_tx;
 	if (!is_pktgen_sending)
 		return 0;
-	ktime_tx.tv64 = ntohll(pgh->time);
+	ktime_tx = ntohll(pgh->time);
 
-	if (ktime_equal(ktime_tx, data_cpu->latency_last_tx))
+	if (ktime_tx == data_cpu->latency_last_tx)
 		return 0;
 	latency = ktime_to_ns(ktime_sub(now, ktime_tx));
 	process_stats(latency, &data_cpu->latency);
