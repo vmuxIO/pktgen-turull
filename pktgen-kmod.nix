@@ -1,31 +1,30 @@
-{ stdenv, lib, fetchFromGitHub, kernel }:
+{ stdenv, lib, kernel }:
 
 stdenv.mkDerivation rec {
-  pname = "v4l2loopback-dc";
-  version = "1.6";
+  pname = "pktgen-kmod";
+  version = "4.6";
 
-  src = fetchFromGitHub {
-    owner = "aramg";
-    repo = "droidcam";
-    rev = "v${version}";
-    hash = "sha256-3RmEmLNUbwIh+yr7vtYZnMwbzfmtW3mz5u4Ohau9OLU=";
-  };
-
-  sourceRoot = "source/linux/v4l2loopback";
-  hardeningDisable = [ "pic" "format" ];                                             # 1
-  nativeBuildInputs = kernel.moduleBuildDependencies;                       # 2
+  src = ./.;
+  sourceRoot = ".";
+  hardeningDisable = [ "pic" "format" ];
+  nativeBuildInputs = kernel.moduleBuildDependencies;
 
   makeFlags = [
-    "KERNELRELEASE=${kernel.modDirVersion}"                                 # 3
-    "KERNEL_DIR=${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"    # 4
-    "INSTALL_MOD_PATH=$(out)"                                               # 5
+    # "KERNELRELEASE=${kernel.modDirVersion}"
+    "KERNEL_DIR=${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
+    "KERNELDIR=${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
+    "INSTALL_MOD_PATH=$(out)"
   ];
 
+  preBuild = ''
+    cd *-source
+  '';
+
   meta = {
-    description = "A kernel module to create V4L2 loopback devices";
-    homepage = "https://github.com/aramg/droidcam";
+    description = "Another version of the Linux pktgen kernel module";
+    homepage = "https://people.kth.se/~danieltt/pktgen/";
     license = lib.licenses.gpl2;
-    maintainers = [ lib.maintainers.makefu ];
+    maintainers = [ lib.maintainers.pogobanane ];
     platforms = lib.platforms.linux;
   };
 }
