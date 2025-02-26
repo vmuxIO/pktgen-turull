@@ -3763,7 +3763,7 @@ static void pktgen_xmit(struct pktgen_dev *pkt_dev)
 			 * bits and reuse it
 			 */
 #ifdef CONFIG_NET_CLS_ACT
-			skb->tc_verd = 0; /* reset reclass/redir ttl */
+			skb_reset_redirect(skb);
 #endif
 		} while (--burst > 0);
 		goto out; /* Skips xmit_mode M_START_XMIT */
@@ -3796,7 +3796,6 @@ xmit_more:
 		break;
 	case NET_XMIT_DROP:
 	case NET_XMIT_CN:
-	case NET_XMIT_POLICED:
 		/* skb has been consumed */
 		pkt_dev->errors++;
 		break;
@@ -3805,7 +3804,6 @@ xmit_more:
 				     pkt_dev->odevname, ret);
 		pkt_dev->errors++;
 		/* fallthru */
-	case NETDEV_TX_LOCKED:
 	case NETDEV_TX_BUSY:
 		/* Retry it next time */
 		refcount_dec(&(pkt_dev->skb->users));
