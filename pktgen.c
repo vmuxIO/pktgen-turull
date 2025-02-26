@@ -2585,7 +2585,7 @@ static void spin(struct pktgen_dev *pkt_dev, ktime_t spin_until)
 		} while (ktime_compare(end_time, spin_until) < 0);
 	} else {
 		/* see do_nanosleep */
-		hrtimer_init_sleeper(&t, current);
+		hrtimer_init_sleeper(&t, CLOCK_MONOTONIC, HRTIMER_MODE_ABS);
 		do {
 			set_current_state(TASK_INTERRUPTIBLE);
 			hrtimer_start_expires(&t.timer, HRTIMER_MODE_ABS);
