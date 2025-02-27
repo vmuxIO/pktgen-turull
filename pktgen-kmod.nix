@@ -20,6 +20,11 @@ stdenv.mkDerivation rec {
     cd *-source
   '';
 
+  installPhase = ''
+    mkdir -p $out/lib/modules/${kernel.modDirVersion}/extra
+    cp pktgen.ko $out/lib/modules/${kernel.modDirVersion}/extra
+  '';
+
   meta = {
     description = "Another version of the Linux pktgen kernel module";
     homepage = "https://people.kth.se/~danieltt/pktgen/";
