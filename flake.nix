@@ -34,5 +34,10 @@
       default = selfpkgs.pktgen-kmod;
     };
 
+    checks.x86_64-linux = let
+        blacklistPackages = [  ];
+        packages = pkgs.lib.mapAttrs' (n: pkgs.lib.nameValuePair "package-${n}") (pkgs.lib.filterAttrs (n: _v: !(builtins.elem n blacklistPackages)) self.packages.x86_64-linux);
+      in packages;
+
   };
 }
