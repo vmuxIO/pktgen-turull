@@ -3,7 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+
+    # kernels to build against:
     dotfiles.url = "github:pogobanane/dotfiles";
+    doctor-cluster-config.url = "github:TUM-DSE/doctor-cluster-config";
   };
 
   outputs = { self, nixpkgs, ... } @ inputs: let
@@ -12,17 +15,23 @@
     in {
 
     packages.x86_64-linux = {
-      hello = nixpkgs.legacyPackages.x86_64-linux.hello;
-      default = self.packages.x86_64-linux.hello;
+      default = selfpkgs.pktgen-kmod;
+
       referenceKernel = inputs.dotfiles.nixosConfigurations.aenderpad.config.boot.kernelPackages.kernel;
       pktgen-kmod = pkgs.callPackage ./pktgen-kmod.nix {
         kernel = selfpkgs.referenceKernel;
       };
+
+      referenceKernel2 = inputs.doctor-cluster-config.nixosConfigurations.amy.config.boot.kernelPackages.kernel;
+      pktgen-kmod2 = pkgs.callPackage ./pktgen-kmod.nix {
+        kernel = selfpkgs.referenceKernel2;
+      };
+
     };
 
 
     devShells.x86_64-linux = {
-      hello = nixpkgs.legacyPackages.x86_64-linux.hello;
+      default = selfpkgs.pktgen-kmod;
     };
 
   };
