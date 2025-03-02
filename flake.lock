@@ -297,11 +297,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1740561778,
-        "narHash": "sha256-fY6Jy+ZyVg4D0qfOh+2U8V1ZNh+cc0UYM4ii6KUXcD8=",
+        "lastModified": 1740755610,
+        "narHash": "sha256-aCl0PqjOQpxLPJPQ1ZkXfkSvKbq26q00NvQB2DSXWlI=",
         "owner": "TUM-DSE",
         "repo": "doctor-cluster-config",
-        "rev": "3e4e1b8e2ff709122011758e9def0ccf8e9e4fb6",
+        "rev": "f48ed149166fa37d6dfc57ab66dfbf8181646248",
         "type": "github"
       },
       "original": {
