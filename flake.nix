@@ -27,6 +27,10 @@
         kernel = selfpkgs.referenceKernel2;
       };
 
+      referenceKernel3 = inputs.doctor-cluster-config.nixosConfigurations.adelaide.config.boot.kernelPackages.kernel;
+      pktgen-kmod3 = pkgs.callPackage ./pktgen-kmod.nix {
+        kernel = selfpkgs.referenceKernel3;
+      };
     };
 
 
